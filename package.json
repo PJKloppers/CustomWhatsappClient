@@ -5,6 +5,7 @@
   "main": "src/main.js",
   "dependencies": {
     "boolean": "^3.2.0",
+    "bootstrap-icons": "^1.9.1",
     "buffer-crc32": "^0.2.13",
     "cacheable-request": "^6.1.0",
     "clone-response": "^1.0.3",
