@@ -1,7 +1,7 @@
 
     
     const {ipcRenderer} = require('electron');
-    const { stringify } = require('ini');
+  
     const qrcode = require('qrcode');
 
             
@@ -32,5 +32,5 @@
     );
 
     
-    
+
     
