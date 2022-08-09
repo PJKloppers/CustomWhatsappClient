@@ -1,37 +1,36 @@
 
-    const list = document.getElementById('itemslist');
-    Element = document.getElementById('input');
+    
     const {ipcRenderer} = require('electron');
+    const { stringify } = require('ini');
+    const qrcode = require('qrcode');
 
-    //when enter is pressed send data
-    Element.onkeydown = function(e){
-    if(e.keyCode == 13){
-        sendData();
-    }
-    }
             
 
-    function sendData(){
+    function sendData(topic, data) {
        
-        var data = Element.value;
-        // if data is empty dont send it
-        if(data == ''){
-            //alert user
-            alert('Please Enter Data');
-            return;
-        }
-        ipcRenderer.send('data', data);
-        Element.value = '';
-        //alert data sent
-        alert('Data sent');
+        ipcRenderer.send(topic, data);
+       
     }
+
     ipcRenderer.on('respond_data', (event, data) => {
         alert("Data received " + data);
-        
-        const li = document.createElement('li');
-        li.className = 'list-group-item';
-        const itemText = document.createTextNode(data);
-        li.appendChild(itemText);
-        list.appendChild(li);
-
     } );
+
+    //IPC receive qr data
+    ipcRenderer.on('qr', (event, data) => {
+        
+        qrcode.toDataURL(data, function (err, url) {
+            const img = document.createElement('img');
+            img.src = url;
+            img.className = 'qr';
+            img.width=200;
+            document.getElementById('qrcode').innerHTML = '';
+            document.getElementById('qrcode').appendChild(img);
+        } );
+
+    }
+    );
+
+    
+    
+    
