@@ -2,9 +2,11 @@ const {app, BrowserWindow, Menu, ipcMain} = require('electron');
 const path = require('path');
 const url = require('url');
 
-const { Client } = require('whatsapp-web.js');
+const { Client, Location, List, Buttons, LocalAuth} = require('whatsapp-web.js');
 
-const wclient = new Client();
+const wclient = new Client(
+   { puppeteer: { headless: false }}
+);
 
 let mainWindow;
 app.on('ready', function(){
@@ -50,6 +52,7 @@ app.on('ready', function(){
             msg.reply('pong');
         }
     });
+    
 
     wclient.initialize();
 });
