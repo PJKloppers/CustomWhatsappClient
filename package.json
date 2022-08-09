@@ -4,13 +4,12 @@
     "description": "",
     "main": "./Backend/main.js",
     "scripts": {
-      "start": "electron ."
+        "start": "electron ."
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "dependencies": {
-      "electron": "^20.0.1"
+        "electron": "^20.0.1"
     }
-  }
-  
+}
