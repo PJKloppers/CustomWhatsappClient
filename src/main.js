@@ -7,7 +7,7 @@ const { Client, Location, List, Buttons, LocalAuth} = require('whatsapp-web.js')
 const wclient = new Client(
    { puppeteer: 
     { headless: false ,
-        args: ['--disable-background-mode','--no-sandbox','--no-experiments']
+        args: ['--disable-background-mode','--no-sandbox','--no-experiments','--app=https://web.whatsapp.com/','--window-size=900,740']
     }
 }
 );
