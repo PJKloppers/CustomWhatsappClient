@@ -3,6 +3,11 @@ const path = require('path');
 const url = require('url');
 const fs = require("fs");
 
+// xlsx to json module
+var XLSX = require("xlsx");
+
+
+
 let mainWindow;
 
 
@@ -28,7 +33,7 @@ app.on('ready', function(){
     //start gui
     startGui();
     //initialize client
-    wclient.initialize();
+    //wclient.initialize();
 });
 
 // wclient functions
@@ -69,16 +74,34 @@ ipcMain.on('open-dialog', function(event,data){
     dialog.showOpenDialog({properties: ['openFile'] }).then(function (response) {
         if (!response.canceled) {
             
-        event.sender.send('open-dialog', response.filePaths[0]);
-        
-          console.log(response.filePaths[0]);
+        //log file path to console 
+        console.log("\n Opening File : "+response.filePaths[0] +"\n\n");
+
+        //open excel filefunction called 
+        jsonobj =  openExcel(response.filePaths[0]);
+        //send json object to mainWindow
+        mainWindow.webContents.send('open-dialog', jsonobj);
+          
         } else {
           console.log("no file selected");
         }
     });
 });
 
-
+//function to open exel file and convert to json
+function openExcel(filePath){
+  // open the file and read as a byte stream
+    var workbook = XLSX.readFile(filePath);
+    // get the first worksheet
+    var first_sheet_name = workbook.SheetNames[0];
+    var worksheet = workbook.Sheets[first_sheet_name];
+    // convert the excel data to json
+    var json = XLSX.utils.sheet_to_json(worksheet);
+    // return the json object
+    return json;
+    
+    
+}
 
 
 

@@ -48,6 +48,7 @@
     "matcher": "^3.0.0",
     "mimic-response": "^1.0.1",
     "ms": "^2.1.2",
+    "node-xlsx": "^0.21.0",
     "normalize-url": "^4.5.1",
     "npm-conf": "^1.1.3",
     "object-keys": "^1.1.1",
@@ -74,6 +75,7 @@
     "url-parse-lax": "^3.0.0",
     "whatsapp-web.js": "^1.17.1",
     "wrappy": "^1.0.2",
+    "xlsx-to-json": "^0.3.0",
     "yallist": "^4.0.0",
     "yauzl": "^2.10.0"
   },

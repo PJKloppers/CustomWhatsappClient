@@ -17,8 +17,12 @@ ipcRenderer.on('respond_data', (event, data) => {
 } );
 
 // ipcrenderer on open-dialog responce
-ipcRenderer.on('open-dialog', (event, file) => {
-    alert("file received " + file);
+ipcRenderer.on('open-dialog', (event, JSONDATA) => {
+    //convert JSONDATA to string
+    var data = JSON.stringify(JSONDATA);
+    //alert(data);
+
+    alert("JSONDATA : " + toString(data));
 } );
 
 
