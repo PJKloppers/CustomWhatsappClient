@@ -90,18 +90,47 @@ ipcMain.on('open-dialog', function(event,data){
 
 //function to open exel file and convert to json
 function openExcel(filePath){
-  // open the file and read as a byte stream
+
+    //open excel file and convert to json
     var workbook = XLSX.readFile(filePath);
-    // get the first worksheet
-    var first_sheet_name = workbook.SheetNames[0];
-    var worksheet = workbook.Sheets[first_sheet_name];
-    // convert the excel data to json
-    var json = XLSX.utils.sheet_to_json(worksheet);
-    // return the json object
-    return json;
+    var sheet_name_list = workbook.SheetNames;
+
+
+// for each sheet in excel file add data to object
+    var sheets = [];
+    // for each sheet in sheet_name_list
+    sheet_name_list.forEach(function(y) { 
+        var xlData = XLSX.utils.sheet_to_json(workbook.Sheets[y]);
+        console.log("Loading sheet: "+y);
+        sheets.push(xlData);
+    });
+          
+
+
     
+    var Data = {
+        "sheets": sheets,
+        "filename": filePath
+    };
+    
+    var HTML =""
+    // generate html table from xlsx using xlsx-to-html module
+    
+    HTML = XLSX.utils.sheet_to_html(workbook.Sheets[sheet_name_list[1]]);
+    mainWindow.webContents.send('filedata', HTML);
+    
+    return Data;
     
 }
+
+// Create iPc socket for "sheet" event
+ipcMain.on('sheet', function(event, data){
+    //generate html from sheet using xlsx-to-html module
+    var HTML = XLSX.utils.sheet_to_html(data);
+    //send html to mainWindow
+    mainWindow.webContents.send('sheet', HTML);
+
+} );
 
 
 
@@ -129,3 +158,6 @@ function startGui(){
         app.quit();
     } );
 }
+
+
+
