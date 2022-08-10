@@ -1,0 +1,6 @@
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* background: url("https://images.pexels.com/photos/9201576/pexels-photo-9201576.jpeg?cs=srgb&dl=pexels-max-statnykh-9201576.jpg&fm=jpg"); */
+    background-size: cover;
+    background: rgb(38, 71, 79)
+}
