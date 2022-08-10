@@ -1,4 +1,5 @@
 // main.js
+const ipc = window.require('electron').ipcRenderer;
 
 // Modules to control application life and create native browser window
 const { app, BrowserWindow } = require('electron')
@@ -33,9 +34,38 @@ app.whenReady().then(() => {
   })
 })
 
+const button = document.getElementById('mailList');
+button.addEventListener('click', () => {
+  createBrowserWindow();
+});
+
+function createBrowserWindow() {
+  const remote = require('electron').remote;
+  const BrowserWindow = remote.BrowserWindow;
+  const win = new BrowserWindow({
+    height: 600,
+    width: 800
+  });
+
+  win.loadFile('frontend/mailinlist.html');
+}
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit()
 })
+
+// ipcMain.on('mailList', event => {
+//   // It's so good because below have a delay 5s to execute, and this don't lock rendereder :)
+//   const mailWindow = new BrowserWindow({
+//     width: 800,
+//     height: 600,
+//     webPreferences: {
+//       preload: path.join(__dirname, 'frontend/preload.js')
+//     }
+//   })
+//   mailWindow.loadFile('frontend/mailinlist.html')
+// })
+
+
