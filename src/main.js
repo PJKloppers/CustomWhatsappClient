@@ -78,10 +78,8 @@ ipcMain.on('open-dialog', function(event,data){
         console.log("\n Opening File : "+response.filePaths[0] +"\n\n");
 
         //open excel filefunction called 
-        jsonobj =  openExcel(response.filePaths[0]);
-        //send json object to mainWindow
-        mainWindow.webContents.send('open-dialog', jsonobj);
-          
+        openExcel(response.filePaths[0]);
+        //send json object to mainWindow          
         } else {
           console.log("no file selected");
         }
@@ -91,36 +89,12 @@ ipcMain.on('open-dialog', function(event,data){
 //function to open exel file and convert to json
 function openExcel(filePath){
 
-    //open excel file and convert to json
     var workbook = XLSX.readFile(filePath);
-    var sheet_name_list = workbook.SheetNames;
 
-
-// for each sheet in excel file add data to object
-    var sheets = [];
-    // for each sheet in sheet_name_list
-    sheet_name_list.forEach(function(y) { 
-        var xlData = XLSX.utils.sheet_to_json(workbook.Sheets[y]);
-        console.log("Loading sheet: "+y);
-        sheets.push(xlData);
-    });
-          
-
-
-    
-    var Data = {
-        "sheets": sheets,
-        "filename": filePath
-    };
-    
     var HTML =""
-    // generate html table from xlsx using xlsx-to-html module
     
-    HTML = XLSX.utils.sheet_to_html(workbook.Sheets[sheet_name_list[1]]);
+    HTML = XLSX.utils.sheet_to_html(workbook.Sheets[workbook.SheetNames[0]]);
     mainWindow.webContents.send('filedata', HTML);
-    
-    return Data;
-    
 }
 
 // Create iPc socket for "sheet" event
