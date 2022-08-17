@@ -1,10 +1,9 @@
 const {ipcRenderer} = require('electron');
 
-// require jquery
+const  {DataTable} = require( "simple-datatables-classic" )
 const $ = require('jquery');
-
-
-// get element "XLSX"
+//require('vanilla-js-datatables');
+//import {DataTable} from "simple-datatables"// get element "XLSX"
 const xlsxdiv = document.getElementById('xlsx');
 
 
@@ -36,47 +35,52 @@ ipcRenderer.on('open-dialog', (event, JSONDATA) => {
 ipcRenderer.on('filedata', (event, data) => {
     xlsxdiv.innerHTML = data;
     FormatAllTables();
-    $('table').DataTable();
+   // $('table').DataTable();
 } );
 
 //function to get all tables on the page
 function FormatAllTables(){
-    var tables = document.getElementsByTagName('table');
+   tables = document.getElementsByTagName('table');
     // format each table in tables
     for(var i = 0; i < tables.length; i++){
-        formatTable(tables[i]);
+        T = tables[i];
+        formatTable(T);
+        var DataT = new DataTable(T,{
+            searchable: true,
+            editable: true,
+            sortable: true,
+            filterable: true,
+            pagination: true,
+            
+
+        });
+        
+        DataT.on('datatable.page', function(p){
+            fixPagination();
+        });
+        DataT.on('datatable.refresh', function(p){
+            fixPagination();
+        });
+        DataT.on('datatable.update', function(p){
+            fixPagination();
+        });
+        DataT.on('datatable.sort', function(p){
+            fixPagination();
+        });
+        DataT.on('datatable.perpage', function(p){
+            fixPagination();
+        });
+        DataT.on('datatable.search', function(p){
+            fixPagination();
+        });
+
+        fixPagination();
     }
 }
 
 
-
 // function to add features to table element
 function formatTable(table){
-
-
-
-    // rows = table.rows;
-    // //append cell to first row
-    // var cell = rows[0].insertCell(0);
-    // //append text to cell
-    // cell.innerHTML = "Select";
-    // //set cell to first column
-
-
-
-    //loop through each row
-    // for(var i = 1; i < rows.length; i++){
-    //     //append cell to row
-    //     var cell = rows[i].insertCell(0);
-    //     //append checkbox to cell
-    //     var checkbox = document.createElement('input');
-    //     checkbox.type = "checkbox";
-    //     checkbox.name = "checkbox";
-    //     checkbox.value = "Select";
-    //     checkbox.id = "checkbox";
-    //     checkbox.checked = true;
-    //     cell.appendChild(checkbox);
-    // }
 
 
 
@@ -115,7 +119,20 @@ function formatTable(table){
 
 
 
-    
+    //fix pagination function
+    function fixPagination(){
+        var as = $('ul.dataTable-pagination-list li a');
+        
+        for(var j = 0; j < as.length; j++){
+            as[j].classList = "page-link";
+        }
+        var as = $('ul.dataTable-pagination-list li');
+        for(var j = 0; j < as.length; j++){
+            as[j].classList = "page-item";
+        }
+        nv = $('ul.dataTable-pagination-list');
+        nv.addClass("pagination")
+    }
     
 
     
