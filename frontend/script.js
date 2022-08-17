@@ -35,16 +35,23 @@ ipcRenderer.on('open-dialog', (event, JSONDATA) => {
 // Create Ipc event for "filedata"
 ipcRenderer.on('filedata', (event, data) => {
     xlsxdiv.innerHTML = data;
+    
     FormatAllTables();
-   // $('table').DataTable();
+
+    
 } );
 
 //function to get all tables on the page
 function FormatAllTables(){
    tables = document.getElementsByTagName('table');
+
+
     // format each table in tables
     for(var i = 0; i < tables.length; i++){
         T = tables[i];
+
+
+
         formatTable(T);
         var DataT = new DataTable(T,{
             plugins: {
@@ -101,7 +108,14 @@ function FormatAllTables(){
         });
 
         fixPagination();
+
+
+
     }
+
+    
+
+    return tables;
 }
 
 
