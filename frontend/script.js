@@ -1,6 +1,6 @@
 const {ipcRenderer} = require('electron');
 
-const  {DataTable} = require( "simple-datatables-classic" )
+//require( "vanilla-datatables" )
 
 const $ = require('jquery');
 //require('vanilla-js-datatables');
@@ -47,13 +47,38 @@ function FormatAllTables(){
         T = tables[i];
         formatTable(T);
         var DataT = new DataTable(T,{
-            searchable: true,
-            editable: true,
-            sortable: true,
-            filterable: true,
-            pagination: true,
-            
-
+            plugins: {
+                editable: {
+                    enabled: true,
+                    contextMenu: true,
+                    hiddenColumns: true,
+                    menuItems: [
+                        {
+                            text: "<span class='mdi mdi-lead-pencil'></span> Edit Cell",
+                            action: function() {
+                                this.editCell();
+                            }
+                        },
+                        {
+                            text: "<span class='mdi mdi-lead-pencil'></span> Edit Row",
+                            action: function() {
+                                this.editRow();
+                            }
+                        },			
+                        {
+                            separator: true
+                        },
+                        {
+                            text: "<span class='mdi mdi-delete'></span> Remove",
+                            action: function() {
+                                if ( confirm("Are you sure?") ) {
+                                    this.removeRow();
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
         });
         
         DataT.on('datatable.page', function(p){
@@ -120,17 +145,22 @@ function formatTable(table){
 
     //fix pagination function
     function fixPagination(){
-        var as = $('ul.dataTable-pagination-list li a');
+        var as = $('div.dataTable-pagination li a');
         
         for(var j = 0; j < as.length; j++){
             as[j].classList = "page-link";
         }
-        var as = $('ul.dataTable-pagination-list li');
+        var as = $('div.dataTable-pagination li');
         for(var j = 0; j < as.length; j++){
             as[j].classList = "page-item";
         }
-        nv = $('ul.dataTable-pagination-list');
-        nv.addClass("pagination")
+        nv = $('div.dataTable-pagination');
+        nv.addClass("pagination m-1 p-1");
+
+
+
+        tt =  $('div.dataTable-top');
+        tt.addClass("m-1 p-1 row g-3");
     }
     
 

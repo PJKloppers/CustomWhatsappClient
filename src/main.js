@@ -92,8 +92,13 @@ function openExcel(filePath){
     var workbook = XLSX.readFile(filePath);
 
     var HTML =""
+
+    var sheet_name_list = workbook.SheetNames;
+    // for the length of the sheet_name_list
+    for(var i = 0; i < sheet_name_list.length; i++){
+        HTML += XLSX.utils.sheet_to_html(workbook.Sheets[workbook.SheetNames[i]]);
+    }
     
-    HTML = XLSX.utils.sheet_to_html(workbook.Sheets[workbook.SheetNames[0]]);
     mainWindow.webContents.send('filedata', HTML);
 }
 
