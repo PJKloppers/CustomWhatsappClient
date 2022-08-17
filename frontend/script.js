@@ -1,6 +1,7 @@
 const {ipcRenderer} = require('electron');
 
 const  {DataTable} = require( "simple-datatables-classic" )
+
 const $ = require('jquery');
 //require('vanilla-js-datatables');
 //import {DataTable} from "simple-datatables"// get element "XLSX"
@@ -110,9 +111,7 @@ function formatTable(table){
         headRow.appendChild(th);
     }
 
-    for(var i = 0; i < table.rows.length; i++){
-        table.rows[i].className = "";
-    }
+    
 
 }
 
